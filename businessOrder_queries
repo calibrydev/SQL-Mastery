@@ -1,0 +1,123 @@
+/* =====================================================
+   USER ORDERS PROJECT - QUERY PRACTICE
+   Author: Mark Wanjema
+   Description: Practice queries demonstrating filtering,
+   sorting, boolean logic, pattern matching and date handling.
+===================================================== */
+
+
+/* =========================
+   BASIC SELECT QUERIES
+========================= */
+
+-- Select all columns from users table
+SELECT * FROM users;
+
+-- Select only specific columns (projection)
+SELECT full_name, email 
+FROM users;
+
+-- Select all active users (boolean filtering)
+SELECT * 
+FROM users 
+WHERE is_active = TRUE;
+
+-- Select users created on a specific date
+-- NOTE: created_at is a TIMESTAMP, so direct equality may fail
+SELECT * 
+FROM users 
+WHERE DATE(created_at) = '2026-02-10';
+
+-- Order users by age in ascending order (youngest first)
+SELECT * 
+FROM users 
+ORDER BY age ASC;
+
+
+/* =========================
+   FILTERING WITH CONDITIONS
+========================= */
+
+-- Select users older than 25
+SELECT * 
+FROM users 
+WHERE age > 25;
+
+-- Select all female users
+SELECT * 
+FROM users 
+WHERE gender = 'F';
+
+-- Select users whose email is NOT NULL
+SELECT * 
+FROM users 
+WHERE email IS NOT NULL;
+
+-- Fetch users created today
+-- DATE() extracts only the date part from TIMESTAMP
+SELECT * 
+FROM users 
+WHERE DATE(created_at) = CURDATE();
+
+-- Select inactive users older than 30 (AND condition)
+SELECT * 
+FROM users 
+WHERE is_active = FALSE 
+AND age > 30;
+
+-- Select users between ages 18 and 35 (range filtering)
+SELECT * 
+FROM users 
+WHERE age BETWEEN 18 AND 35;
+
+-- Select users whose email contains 'gmail'
+SELECT * 
+FROM users 
+WHERE email LIKE '%gmail%';
+
+
+/* =========================
+   PRODUCT QUERIES
+========================= */
+
+-- Select top 3 most expensive products
+SELECT * 
+FROM products 
+ORDER BY price DESC 
+LIMIT 3;
+
+-- Select products that are out of stock
+SELECT * 
+FROM products 
+WHERE quantity = 0;
+
+-- Select products that are NOT in the Electronics category
+SELECT * 
+FROM products 
+WHERE category != 'Electronics';
+
+
+/* =========================
+   ORDER QUERIES
+========================= */
+
+-- Select orders paid using cash OR mpesa
+SELECT * 
+FROM orders 
+WHERE payment_method = 'cash' 
+OR payment_method = 'mpesa';
+
+-- Select orders made today
+SELECT * 
+FROM orders 
+WHERE DATE(order_date) = CURDATE();
+
+
+/* =========================
+   PATTERN MATCHING
+========================= */
+
+-- Select users whose name ends with the letter 'a'
+SELECT * 
+FROM users 
+WHERE full_name LIKE '%a';
