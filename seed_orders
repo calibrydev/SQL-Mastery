@@ -1,0 +1,66 @@
+/* =====================================================
+   USER ORDERS PROJECT - SEED DATA
+   Author: Mark Wanjema
+   Description:
+   This script populates the users, products, and orders
+   tables with sample data for testing and practice.
+===================================================== */
+
+
+/* =====================================================
+   INSERT SAMPLE PRODUCTS
+===================================================== */
+
+-- Insert products with different price ranges and stock levels
+INSERT INTO products 
+(product_name, price, quantity, category, created_at) 
+VALUES 
+('Samsung Phone', 45000.00, 10, 'Electronics', '2024-10-12'),
+('Laptop Stand', 3500.00, 5, 'Accessories', '2025-01-03'),
+('Office Chair', 18000.00, 2, 'Furniture', '2023-11-20'),
+('USB Cable', 800.00, 0, 'Electronics', '2025-02-01');  -- Corrected date format
+
+
+/* =====================================================
+   INSERT SAMPLE USERS
+===================================================== */
+
+-- Insert active and inactive users with mixed ages
+INSERT INTO users 
+(full_name, email, age, gender, is_active) 
+VALUES 
+('Anna Wanjiru', 'anna@gmail.com', 24, 'F', TRUE),
+('Brian Otieno', 'brian@yahoo.com', 32, 'M', TRUE),
+('Cynthia Akinyi', 'cynthia@gmail.com', 29, 'F', FALSE),  -- Fixed spelling & removed space in email
+('David Mwangi', 'david@outlook.com', 41, 'M', TRUE),
+('Ben Affleck', 'ben@outlook.com', 35, 'M', TRUE);  -- Added missing age
+
+
+/* =====================================================
+   INSERT SAMPLE ORDERS
+===================================================== */
+
+-- Insert multiple orders linked to users
+-- user_id references the users table
+INSERT INTO orders 
+(user_id, total_amount, payment_method, order_status) 
+VALUES
+(1, 34000.00, 'mpesa', 'completed'),
+(1, 45000.00, 'mpesa', 'completed'),
+(2, 21500.00, 'card', 'completed'),
+(1, 18000.00, 'cash', 'pending'),
+(3, 800.00, 'mpesa', 'pending');
+
+
+/* =====================================================
+   NOTES
+===================================================== */
+
+-- Ensure that:
+-- 1. The database is selected before running this script:
+--      USE user_orders_project;
+--
+-- 2. Tables already exist before running this file.
+--
+-- 3. If foreign keys are added later, user_id values must exist
+--    in the users table before inserting orders.
