@@ -1,0 +1,82 @@
+/* =====================================================
+   USER ORDERS PROJECT - DATABASE SCHEMA
+   Author: Mark Wanjema
+   Description:
+   This script creates the database and tables for the
+   User Orders SQL practice project.
+===================================================== */
+
+
+/* =====================================================
+   CREATE DATABASE
+===================================================== */
+
+-- Create the project database
+CREATE DATABASE user_orders_project;
+
+-- Select the database for use
+USE user_orders_project;
+
+
+/* =====================================================
+   TABLE: users
+   Stores user account information
+===================================================== */
+
+CREATE TABLE users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(180) UNIQUE NOT NULL,
+    age INT,
+    gender CHAR(1),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+/* =====================================================
+   TABLE: products
+   Stores product details available for purchase
+===================================================== */
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_name VARCHAR(255) NOT NULL,
+    price DECIMAL(10,2) CHECK (price > 0),
+    quantity INT DEFAULT 0,
+    category VARCHAR(255),
+    created_at DATE
+);
+
+
+/* =====================================================
+   TABLE: orders
+   Stores order transaction details
+===================================================== */
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    total_amount DECIMAL(12,2),
+    payment_method ENUM('cash', 'mpesa', 'card') DEFAULT 'mpesa',
+    order_status VARCHAR(50) DEFAULT 'pending',
+    order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    -- Foreign key to ensure order belongs to an existing user
+    CONSTRAINT fk_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+
+/* =====================================================
+   NOTES
+===================================================== */
+
+-- 1. users table stores account information.
+-- 2. products table stores inventory information.
+-- 3. orders table links to users via user_id.
+-- 4. ON DELETE CASCADE ensures that if a user is deleted,
+--    their orders are automatically removed.
